@@ -21,7 +21,30 @@ class MovieLikeForm extends Component {
     }
 
     submitForm(e) {
+        const config = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(this.state),
+        };
+        const url = " http://campus-bordeaux.ovh:3001/api/quests/movies/";
+
         e.preventDefault();
+
+        fetch(url, config)
+            .then(res => res.json())
+            .then(res => {
+                if (res.error) {
+                    alert(res.error);
+                } else {
+                    alert(`Movie add successfully on ID ${res}!`);
+                }
+            }).catch(e => {
+            console.error(e);
+            alert('Failed to add movie');
+        });
+
     }
 
     render() {
@@ -46,11 +69,11 @@ class MovieLikeForm extends Component {
                             </div>
 
                             <div className="form-data form-group">
-                                <label htmlFor="pictureurl">Picture URL</label>
+                                <label htmlFor="pictureUrl">Picture URL</label>
                                 <input
                                     type="text"
-                                    id="pictureurl"
-                                    name="pictureurl"
+                                    id="pictureUrl"
+                                    name="pictureUrl"
                                     onChange={this.onChange}
                                     value={this.state.pictureUrl}
                                     className="form-control"
